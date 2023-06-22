@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Prikaz gostiju</title>
+        <!-- Bootstrap 5 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">        
+    </head>
+    <body>
+         <!-- Modal -->
+         <div class="modal fade" id="addClassModal" tabindex="-1" aria-labelledby="addClassModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addClassModalLabel">Dodaj novog gosta</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addClassForm" method="POST" action="/classes/add">
+                            <div class="mb-3">
+                                <label for="ime" class="form-label">Ime</label>
+                                <input type="text" class="form-control" id="ime" name="ime">
+                            </div>
+                            <div class="mb-3">
+                                <label for="prezime" class="form-label">Prezime</label>
+                                <input type="text" class="form-control" id="prezime" name="prezime">
+                            </div>
+                            <div class="mb-3">
+                                <label for="spol" class="form-label">Spol</label>
+                                <input type="text" class="form-control" id="spol" name="spol">
+                            </div>
+                            <div class="mb-3">
+                                <label for="godiste" class="form-label">Godiste</label>
+                                <input type="text" class="form-control" id="godiste" name="godiste">
+                            </div>
+                            <div class="mb-3">
+                                <label for="adresa" class="form-label">Adresa</label>
+                                <input type="text" class="form-control" id="adresa" name="adresa">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zatvori</button>
+                        <button type="button" class="btn btn-primary" id="addClassBtn">Dodaj gosta</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="editClassModal" tabindex="-1" aria-labelledby="editClassModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addClassModalLabel">Uredi gosta</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addClassForm" method="POST" action="/classes/add">
+                            <div class="mb-3">
+                                <label for="ime" class="form-label">Ime</label>
+                                <input type="hidden" class="form-control" id="gostIdEdit" name="gostIdEdit">
+                                <input type="text" class="form-control" id="imeEdit" name="imeEdit">
+                            </div>
+                            <div class="mb-3">
+                                <label for="prezime" class="form-label">Prezime</label>
+                                <input type="text" class="form-control" id="prezimeEdit" name="prezimeEdit">
+                            </div>
+                            <div class="mb-3">
+                                <label for="spol" class="form-label">Spol</label>
+                                <input type="text" class="form-control" id="spolEdit" name="spolEdit">
+                            </div>
+                            <div class="mb-3">
+                                <label for="godiste" class="form-label">Godiste</label>
+                                <input type="text" class="form-control" id="godisteEdit" name="godisteEdit">
+                            </div>
+                            <div class="mb-3">
+                                <label for="adresa" class="form-label">Adresa</label>
+                                <input type="text" class="form-control" id="adresaEdit" name="adresaEdit">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zatvori</button>
+                        <button type="button" class="btn btn-primary" id="editClassBtn">Uredi gosta</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row mt-3 mb-3">
+                <div class="col">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addClassModal">
+                        Dodaj gosta
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table id="classesTbl" class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Ime</th>
+                                <th scope="col">Prezime</th>
+                                <th scope="col">Spol</th>
+                                <th scope="col">Godiste</th>
+                                <th scope="col">Adresa</th>
+                                <th scope="col">Akcije</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for class in classes %}
+                            <tr id="row-{{ class.ID_gost }}">
+                                <td>{{ class.ID_gost }}</td>
+                                <td>{{ class.ime }}</td>
+                                <td>{{ class.prezime }}</td>
+                                <td>{{ class.spol }}</td>
+                                <td>{{ class.godiste }}</td>
+                                <td>{{ class.adresa }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger deleteClassBtn" data-id="{{ class.ID_gost }}">Briši</button>
+                                    <button class="btn btn-sm btn-default editClassBtn" data-id="{{ class.ID_gost }}">Uredi</button>
+                                    <a href="/class/{{ class.ID_gost }}" class = "btn btn-sm btn-sucess">Redis</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap 5 JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js" integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA==" crossorigin="anonymous"></script>
+    
+        <script>
+            $(document).ready(function() {
+                var socket = io.connect('http://127.0.0.1:5000/kafka');
+
+                $(document).on('click', '.editClassBtn', function() {
+                    var id = $(this).data('id');
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/classes/" + id,
+                        success: function(data) {
+                            $('#imeEdit').val(data[0].ime);
+                            $('#prezimeEdit').val(data[0].prezime);
+                            $('#spolEdit').val(data[0].spol);
+                            $('#godisteEdit').val(data[0].godiste);
+                            $('#adresaEdit').val(data[0].adresa);
+                            $('#gostIdEdit').val(data[0].ID_gost);
+                            $("#editClassModal").modal("show");
+                        },
+                        error: function(error) {
+                            console.error('Nastala je greška:', error);
+                        }
+                    });
+                });
+                $(document).on('click', '#editClassBtn',function(event) {
+                    event.preventDefault(); // Zaustavi formu 
+                    var formData = {
+                        ID_gost: $("#gostIdEdit").val(),
+                        ime: $("#imeEdit").val(),
+                        prezime: $("#prezimeEdit").val(),
+                        spol: $("#spolEdit").val(),
+                        godiste: $("#godisteEdit").val(),
+                        adresa: $("#adresaEdit").val()
+                    };
+                    $.ajax({
+                        type: "PUT",
+                        url: "/classes/edit",
+                        data: formData,
+                        success: function(response) {
+                            console.log("Gost uređen!");
+                            $("#editClassModal").modal("hide");
+                        },
+                        error: function(error) {
+                            console.error("Nastala je greška:", error);
+                        }
+                    });
+                });
+                $(document).on('click', '#addClassBtn',function(event) {
+                    event.preventDefault(); // Zaustavi formu 
+                    var formData = {
+                        ime: $("#ime").val(),
+                        prezime: $("#prezime").val(),
+                        spol: $("#spol").val(),
+                        godiste: $("#godiste").val(),
+                        adresa: $("#adresa").val()
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: "/classes/add",
+                        data: formData,
+                        success: function(response) {
+                            console.log("Gost dodan!");
+                        },
+                        error: function(error) {
+                            console.error("Nastala je greška:", error);
+                        }
+                    });
+                });
+
+                $(document).on('click', '.deleteClassBtn', function() {
+                    var row = $(this).closest('tr');
+                    var id = $(this).data('id');
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/classes/delete/" + id,
+                        success: function(data) {
+                            if (data.message) {
+                                row.remove();
+                            }
+                        },
+                        error: function(error) {
+                            console.error('Nastala je greška:', error);
+                        }
+                    });
+                });
+
+                socket.on('connect', function() {
+                    console.log('Connected to SocketIO server');
+                });
+
+                socket.on('data', function(msg) {
+                    msg["gost"].forEach(function(gost) {
+                        var table = $('#classesTbl'); // Identifikator tablice
+                        var rowId = "row-" + gost.ID_gost;
+                        var existingRow = $('#' + rowId);
+                        
+                        if (existingRow.length) {
+                            // Ažuriraj postojeći redak
+                            existingRow.find('td:eq(1)').text(gost.ime);
+                            existingRow.find('td:eq(2)').text(gost.prezime);
+                            existingRow.find('td:eq(1)').text(gost.spol);
+                            existingRow.find('td:eq(2)').text(gost.godiste);
+                            existingRow.find('td:eq(1)').text(gost.adresa);
+                        } else {
+                            // Dodaj novi redak
+                            var row = $('<tr>').attr('id', rowId);
+                            row.append($('<td>').text(gost.ID_gost));
+                            row.append($('<td>').text(gost.ime));
+                            row.append($('<td>').text(gost.prezime));
+                            row.append($('<td>').text(gost.spol));
+                            row.append($('<td>').text(gost.godiste));
+                            row.append($('<td>').text(gost.adresa));
+                            
+                            var deleteBtn = $('<button>').addClass('btn btn-sm btn-danger deleteClassBtn')
+                                                        .attr('data-id', gost.ID_gost)
+                                                        .text('Briši');
+                            var editBtn = $('<button>').addClass('btn btn-sm btn-warning editClassBtn')
+                                                        .attr('data-id', gost.ID_gost)
+                                                        .text('Uredi');
+                            var redisBtn = $('<button>').addClass('btn btn-sm btn-warning redisBtn')
+                                                        .attr('data-id', gost.ID_gost)
+                                                        .text('Redis');
+                            
+                            var deleteCell = $('<td>').append(deleteBtn, ' ', editBtn, ' ', redisBtn);
+                            row.append(deleteCell);
+                            table.append(row);
+                        }
+                        
+                        $("#addClassModal").modal("hide");
+                    });
+                });
+
+            });
+
+        </script>
+    </body>
+</html>
